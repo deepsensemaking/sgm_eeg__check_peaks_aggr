@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
+"""
+get_ipython().magic("run peaks__test_001.tg.ipy")
+
+"""
+
+get_ipython().magic("load_ext autoreload")
+get_ipython().magic("autoreload 2"       )
+
+import os
+import sys
+import numpy as np
+import pandas as pd
+import json
+
+import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+
+from collections import OrderedDict
+
+import deepsensemaking as dsm
+from   deepsensemaking.dicts import str_dict,print_dict
+from   deepsensemaking.bids  import get_bids_prop
+from   deepsensemaking.eeg   import convert_ZZ
+from   deepsensemaking.eeg   import chan_bund_INEFFICIENT_mean
+
+from IPython.display import display, HTML
+
+_DIR = dsm.set_cwd()
+
+pd.set_option("display.notebook_repr_html", dsm.base.outside_emacs() )
+
+
+# %matplotlib notebook
+
+
+from contextlib import ExitStack
+mgrs = [
+    pd.option_context("display.max_columns"  ,   45),
+    pd.option_context("display.max_colwidth" ,   80),
+    pd.option_context("display.width"        ,  800),
+    pd.option_context("display.max_rows"     ,  200),
+    pd.option_context("display.min_rows"     ,  200),
+]
+
+with ExitStack() as stack:
+    [stack.enter_context(mgr) for mgr in mgrs]
+    print( pd.get_option("display.max_rows") )
+
+
+ifSetup="peaks/data/setup.json"
+with open(ifSetup) as fhSetup: setup = OrderedDict(json.load(fhSetup))
+print_dict(setup,"setup",1,)
+
+ifZ0 = "peaks/data/corr_bv_database_EEG_LONG.csv"
+dfZ0 = pd.read_csv(ifZ0)
+
+dfZ1 = convert_ZZ(dfZ0,ifSetup="peaks/data/setup.json",verbose=3,)
+dfZ1.shape
+
+ofZ1 = "peaks/data/dfZ1_peaks_crude_CONVERTED.csv"
+dfZ1.to_csv(ofZ1,index = False,)
+
+ifC3 = "peaks/data/df4_peaks4_crude.csv"
+ifZ3 = "peaks/data/dfZ1_peaks_crude_CONVERTED.csv"
+
+dfC3 = pd.read_csv(ifC3)
+dfZ3 = pd.read_csv(ifZ3)
+
+print(dfC3.shape)
+print(dfZ3.shape)
+
+dfZ4 = chan_bund_INEFFICIENT_mean(dfZ3)
+ofZ4 = "peaks/data/dfZ4_peaks_crude_XTRA_MEANS.csv"
+dfZ4.to_csv(ofZ4,index=False,)
+
+dfC4 = chan_bund_INEFFICIENT_mean(dfC3)
+ofC4 = "peaks/data/dfC4_peaks_crude_XTRA_MEANS.csv"
+dfC4.to_csv(ofC4,index=False,)
