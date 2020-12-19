@@ -447,7 +447,12 @@ dfA0.to_csv("peaks/data/dfA0.csv",index=False,)
 
 #+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
 
-dfA0.drop(columns=["evoked0","quest0","tmax0","chanX","latX","SES","TASK"],inplace=True,errors="ignore",)
+# dfA0.drop(columns=["evoked0","quest0","tmax0","chanX","latX","SES","TASK"],inplace=True,errors="ignore",)
+
+dfA0 = dfA0[["cond0","chan0","bund0","tmin0","mode0","subj0","runn0","set0","valX",]]
+
+dfA0 = dfA0[["set0","mode0","cond0","chan0","bund0","tmin0","runn0","subj0","valX",]]
+
 dispDF(dfA0,24)
 display(list(dfA0.columns))
 
