@@ -99,3 +99,50 @@ dfC4.to_csv(ofC4,index=False,)
 
 
 #+END_SRC
+
+
+
+
+* Extras
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+cols0 = [col0 for col0 in dfZ4.columns if col0 not in ["latX","valX",]]
+dups0 = dfZ4.duplicated(subset=cols0,keep="first")
+
+
+
+for df0 in []
+
+
+dfZ3
+dfZ4
+dfC3
+dfC4
+
+cols0 = [col0 for col0 in df_TEMP.columns if col0 not in ["latX","valX",]]
+dups0 = df_TEMP.duplicated(subset=cols0,keep="first")
+sum(dups0)
+
+
+
+#+END_SRC
+
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+cols0 = list(dfC5.columns)
+cols0 = [col0 for col0 in cols0 if col0 not in ["evoked0","mode0","latX","valX","RUN","CHAN_BUND"] ]
+for col0 in cols0:
+  assert sorted(dfC5[col0].unique())==sorted(dfZ5[col0].unique()), "PROBLEM: {}".format(col0)
+
+
+
+display(sorted(dfZ5["CHAN_BUND"].fillna("").unique()))
+assert sorted(dfC5["CHAN_BUND"].fillna("").unique())==sorted(dfZ5["CHAN_BUND"].fillna("").unique()), "PROBLEM: {}".format(col0)
+
+
+
+
+#+END_SRC
