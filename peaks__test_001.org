@@ -3,7 +3,8 @@
 
 * LINKS
 
-https://colab.research.google.com/#create=true&language=r
+- https://colab.research.google.com/#create=true&language=r
+- https://towardsdatascience.com/how-to-use-r-in-google-colab-b6e02d736497
 
 * PROD: FIRST
 
@@ -469,6 +470,81 @@ display(list(dfA0.columns))
 * PROD: Third
 
 #+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+get_ipython().magic("load_ext autoreload")
+get_ipython().magic("autoreload 2")
+
+import os
+import sys
+import numpy as np
+import pandas as pd
+import json
+
+import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+
+from collections import OrderedDict
+
+import deepsensemaking as dsm
+from   deepsensemaking.dicts import str_dict,print_dict
+from   deepsensemaking.bids  import get_bids_prop
+from   deepsensemaking.eeg   import convert_ZZ
+from   deepsensemaking.eeg   import convert_ZZ_translators
+from   deepsensemaking.eeg   import chan_bund_INEFFICIENT_mean
+
+from IPython.display import display, HTML, Image
+
+_DIR = dsm.set_cwd()
+
+pd.set_option("display.notebook_repr_html", dsm.base.outside_emacs() )
+
+# %matplotlib notebook
+
+
+import scipy as sp
+import matplotlib as mpt
+import pingouin as pg
+import outdated as od
+import statsmodels as sm
+import mpmath as mmp
+import sklearn as skl
+import pandas.util.testing as tm
+from scipy import stats as sp
+from pingouin import  pairwise_ttests, read_dataset
+
+import seaborn as sns
+
+
+# The following is only for my GNU Emacs configuration to suppress HTML output
+if "DIR_PROJ_MAIN" in locals(): pd.options.display.notebook_repr_html = False
+
+
+from contextlib import ExitStack
+mgrs = [
+    pd.option_context("display.max_columns"  ,   45),
+    pd.option_context("display.max_colwidth" ,   80),
+    pd.option_context("display.width"        ,  800),
+    pd.option_context("display.max_rows"     ,  200),
+    pd.option_context("display.min_rows"     ,  200),
+]
+
+with ExitStack() as stack:
+    [stack.enter_context(mgr) for mgr in mgrs]
+    print( pd.get_option("display.max_rows") )
+
+def dispDF(df_TEMP,n=6):
+    with ExitStack() as stack:
+        [stack.enter_context(mgr) for mgr in mgrs]
+        display(df_TEMP.shape)
+        display(df_TEMP.sample(n=n).sort_index())
+
+
+
+ifA0 = "peaks/data/dfA0.csv"
+dfA0 = pd.read_csv(ifA0)
+dfA1 = dfA0[["set0","mode0","cond0","chan0","bund0","tmin0","runn0","subj0","valX",]]
+display(list(dfA1.columns))
+
 
 
 
