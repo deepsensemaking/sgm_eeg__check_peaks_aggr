@@ -5,6 +5,9 @@
 
 - https://colab.research.google.com/#create=true&language=r
 - https://towardsdatascience.com/how-to-use-r-in-google-colab-b6e02d736497
+- pandas dataframe mapping
+  - https://stackoverflow.com/questions/19226488/change-one-value-based-on-another-value-in-pandas
+  - https://stackoverflow.com/questions/20250771/remap-values-in-pandas-column-with-a-dict
 
 * PROD: FIRST
 
@@ -540,10 +543,62 @@ def dispDF(df_TEMP,n=6):
 
 
 
+
+
+
+
+ifSetup = "peaks/data/setup.json"
+verbose = 0
+cond_swaps,tmin_swaps,tmax_swaps,chan_swaps = convert_ZZ_translators(
+        ifSetup=ifSetup,verbose=verbose,
+    )
+
+print_dict(cond_swaps,"cond_swaps",1,)
+print_dict(tmin_swaps,"tmin_swaps",1,)
+print_dict(tmax_swaps,"tmax_swaps",1,)
+print_dict(chan_swaps,"chan_swaps",1,)
+
+
+ifSetup="peaks/data/setup.json"
+with open(ifSetup) as fhSetup: setup = OrderedDict(json.load(fhSetup))
+print_dict(setup,"setup",1,)
+
+
+
+chan_infos0 = setup["chans"]["info0"]
+print_dict(chan_infos0,"chan_infos0",1,)
+
+chans_later0 = setup["chans"]["info2"]["later0"]
+print_dict(chans_later0,"chans_later0",1,)
+
+
+chans_front0 = setup["chans"]["info2"]["front0"]
+print_dict(chans_front0,"chans_front0",1,)
+
+
+
+
+
 ifA0 = "peaks/data/dfA0.csv"
 dfA0 = pd.read_csv(ifA0)
-dfA1 = dfA0[["set0","mode0","cond0","chan0","bund0","tmin0","runn0","subj0","valX",]]
+dfA1 = dfA0[["set0","mode0","cond0","chan0","bund0","tmin0","runn0","subj0","valX",]].copy()
 display(list(dfA1.columns))
+
+dfA1["later0"] = dfA1["chan0"].map(chans_later0)
+dfA1["front0"] = dfA1["chan0"].map(chans_front0)
+
+
+temp_cols = ["set0","mode0","cond0","chan0","later0","front0","bund0","tmin0","runn0","subj0","valX",]
+dfA2 = dfA1[temp_cols]
+
+
+
+dfA2.to_csv("peaks/data/dfA2.csv",index=False,)
+
+
+
+
+
 
 
 
