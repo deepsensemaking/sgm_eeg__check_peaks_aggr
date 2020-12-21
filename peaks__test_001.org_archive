@@ -1,0 +1,489 @@
+
+Archived entries from file /home/jiko/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+
+
+* CTRL: Extras 01
+:PROPERTIES:
+:ARCHIVE_TIME: 2020-12-21 Mon 09:36
+:ARCHIVE_FILE: ~/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+:ARCHIVE_CATEGORY: peaks__test_000
+:END:
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+cols0 = [col0 for col0 in dfZ4.columns if col0 not in ["latX","valX",]]
+dups0 = dfZ4.duplicated(subset=cols0,keep="first")
+
+cols0 = [col0 for col0 in dfZ3.columns if col0 not in ["latx","valX","evoked"]]
+dfZ3.groupby(by=cols0).mean()
+
+for df0 in []
+
+
+dfZ3
+dfZ4
+dfC3
+dfC4
+
+cols0 = [col0 for col0 in df_TEMP.columns if col0 not in ["latX","valX",]]
+dups0 = df_TEMP.duplicated(subset=cols0,keep="first")
+sum(dups0)
+
+
+
+#+END_SRC
+
+
+Archived entries from file /home/jiko/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+
+
+* CTRL: Extras 02
+:PROPERTIES:
+:ARCHIVE_TIME: 2020-12-21 Mon 09:36
+:ARCHIVE_FILE: ~/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+:ARCHIVE_CATEGORY: peaks__test_000
+:END:
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+cols0 = list(dfC5.columns)
+cols0 = [col0 for col0 in cols0 if col0 not in ["evoked0","mode0","latX","valX","RUN","CHAN_BUND"] ]
+for col0 in cols0:
+  assert sorted(dfC5[col0].unique())==sorted(dfZ5[col0].unique()), "PROBLEM: {}".format(col0)
+
+
+
+display(sorted(dfZ5["CHAN_BUND"].fillna("").unique()))
+assert sorted(dfC5["CHAN_BUND"].fillna("").unique())==sorted(dfZ5["CHAN_BUND"].fillna("").unique()), "PROBLEM: {}".format(col0)
+
+
+
+
+#+END_SRC
+
+
+Archived entries from file /home/jiko/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+
+
+* CTRL: Extras 03
+:PROPERTIES:
+:ARCHIVE_TIME: 2020-12-21 Mon 09:36
+:ARCHIVE_FILE: ~/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+:ARCHIVE_CATEGORY: peaks__test_000
+:END:
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+# Expected number of basic cases
+temp_expect = dict(
+    cond0 =  4,
+    chan0 = 36,
+    tmin0 =  6,
+    subj0 = 32,
+)
+temp_expect = np.prod(list(temp_expect.values()))
+
+# C3chan has only one run (0) but two levels for mode0 (pos, neg)
+temp_C3chan_pos1 = sum((dfA0["set0"]=="C3chan") & (dfA0["mode0"]=="pos"))
+assert temp_expect == temp_C3chan_pos1
+
+# Z3chan has only one level for mode0 (pos) but four levels for run (1, 2, 3, 4)
+temp_Z3chan_run1 = sum((dfA0["set0"]=="Z3chan") & (dfA0["RUN"]==1))
+assert temp_expect == temp_Z3chan_run1
+
+# Analogous to the above
+temp_C3bund_pos1 = sum((dfA0["set0"]=="C3bund") & (dfA0["mode0"]=="pos"))
+temp_C4bund_pos1 = sum((dfA0["set0"]=="C4bund") & (dfA0["mode0"]=="pos"))
+temp_Z4bund_run1 = sum((dfA0["set0"]=="Z4bund") & (dfA0["RUN"]==1))
+
+assert temp_expect == temp_C3bund_pos1 * 6
+assert temp_expect == temp_C4bund_pos1 * 6
+assert temp_expect == temp_Z4bund_run1 * 6
+
+display(temp_expect)
+display(temp_C3chan_pos1)
+display(temp_Z3chan_run1)
+display(temp_C3bund_pos1)
+display(temp_C4bund_pos1)
+display(temp_Z4bund_run1)
+# Each of six bundles contains six channels
+display(temp_Z4bund_run1 * 6)
+
+del temp_expect,temp_C3chan_pos1,temp_Z3chan_run1,temp_C3bund_pos1,temp_C4bund_pos1,temp_Z4bund_run1
+
+
+
+#+END_SRC
+
+* DONE PROD: SECOND
+:PROPERTIES:
+:ARCHIVE_TIME: 2020-12-21 Mon 12:17
+:ARCHIVE_FILE: ~/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+:ARCHIVE_CATEGORY: peaks__test_000
+:ARCHIVE_TODO: DONE
+:END:
+
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+ifC3 = "peaks/data/df4_peaks4_crude.csv"
+ifZ3 = "peaks/data/dfZ1_peaks_crude_CONVERTED.csv"
+ifC4 = "peaks/data/dfC4_peaks_crude_XTRA_MEANS.csv"
+ifZ4 = "peaks/data/dfZ4_peaks_crude_XTRA_MEANS.csv"
+
+dfC3 = pd.read_csv(ifC3)
+dfZ3 = pd.read_csv(ifZ3)
+dfC4 = pd.read_csv(ifC4)
+dfZ4 = pd.read_csv(ifZ4)
+
+# dfZ3 and dfZ4 should contain only columns that are present in dfC3 and dfC4
+dfZ3 = dfZ3[dfC3.columns]
+dfZ4 = dfZ4[dfC4.columns]
+
+list(dfC3.columns)
+
+"""
+
+#+END_SRC
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+cols0 = dfZ3.columns
+cols1 = [col0 for col0 in cols0 if col0 not in ["valX","latX","RUN"]]
+dfZ0 = dfZ3.groupby(by=cols1,as_index=False).agg("mean")
+dfZ0["RUN"]  = 0
+dfZ0 = dfZ0[cols0]
+dfZ0
+
+"""
+
+
+#+END_SRC
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+dfS0 = dfZ0.copy()
+dfS0 = chan_bund_INEFFICIENT_mean(dfS0)
+"""
+
+#+END_SRC
+
+
+* FWD
+:PROPERTIES:
+:ARCHIVE_TIME: 2020-12-21 Mon 12:17
+:ARCHIVE_FILE: ~/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+:ARCHIVE_CATEGORY: peaks__test_000
+:END:
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+temp_rename = {
+    "CHAN_BUND":"bund0",
+    "SUB":"subj0",
+    "RUN":"runn0",
+}
+temp_drop = [
+    "SES",
+    "TASK",
+]
+
+dfC3.rename(columns=temp_rename,inplace=True,)
+dfZ3.rename(columns=temp_rename,inplace=True,)
+dfC4.rename(columns=temp_rename,inplace=True,)
+dfZ4.rename(columns=temp_rename,inplace=True,)
+dfZ0.rename(columns=temp_rename,inplace=True,)
+dfS0.rename(columns=temp_rename,inplace=True,)
+
+dfC3.drop(columns=temp_drop,inplace=True,)
+dfZ3.drop(columns=temp_drop,inplace=True,)
+dfC4.drop(columns=temp_drop,inplace=True,)
+dfZ4.drop(columns=temp_drop,inplace=True,)
+dfZ0.drop(columns=temp_drop,inplace=True,)
+dfS0.drop(columns=temp_drop,inplace=True,)
+
+dfC3["set0"] = "C3chan"
+dfZ3["set0"] = "Z3chan"
+dfC4["set0"] = "C4bund"
+dfZ4["set0"] = "Z4bund"
+dfZ0["set0"] = "Z0chan"
+dfS0["set0"] = "Z0bund"
+
+
+dfC3.loc[ dfC3["bund0"].isnull(), "set0" ] = "C3bund"
+
+assert list(dfC3.columns)==list(dfC4.columns)
+assert list(dfC3.columns)==list(dfZ3.columns)
+assert list(dfC3.columns)==list(dfZ4.columns)
+assert list(dfC3.columns)==list(dfZ0.columns)
+assert list(dfC3.columns)==list(dfS0.columns)
+
+display(list(dfC3.columns))
+
+
+"""
+
+
+#+END_SRC
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+dispDF(dfC3,12,)
+dispDF(dfZ3,12,)
+dispDF(dfC4,12,)
+dispDF(dfZ4,12,)
+dispDF(dfZ0,12,)
+dispDF(dfS0,12,)
+
+list(dfZ3.columns)
+
+display(dfZ3.set0.unique())
+display(dfC3.set0.unique())
+
+"""
+
+#+END_SRC
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+dfC5 = dfC3.append(dfC4, ignore_index=True)
+dfZ5 = dfZ3.append([dfZ4,dfZ0,dfS0], ignore_index=True)
+
+"""
+
+#+END_SRC
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+
+# dfC5 should keep only `chan0` levels that are present in the corresponding dfZ5 column
+# effectively this drops from dfC5 channels that are not of interest
+dfC5 = dfC5[ np.isin( dfC5["chan0"], dfZ5["chan0"].unique() ) ]
+display(dfC5.shape)
+display(dfZ5.shape)
+assert sorted(list(dfC5["chan0"].unique())) == sorted(list(dfZ5["chan0"].unique()))
+
+
+# dfC5 should keep only `cond0` levels that are present in corresponding dfZ5 column
+# effectively this drops from dfC5 dummy condition containing all ERPs and
+# any conditions based on word length ETC
+dfC5 = dfC5[ np.isin( dfC5["cond0"], dfZ5["cond0"].unique() ) ]
+display(dfC5.shape)
+display(dfZ5.shape)
+assert sorted(list(dfC5["cond0"].unique())) == sorted(list(dfZ5["cond0"].unique()))
+
+
+# BACKUP subjects codes data
+# This is used below to explain a missing/misslabeled subject
+# This subject (27mwxf/27zgxf) will be removed from this comparison
+subjC5 = dfC5["subj0"].unique()
+subjZ5 = dfZ5["subj0"].unique()
+
+# Seems that we have an extra subject in the dfZZ database
+# Actually the label seems to be mixed up for subject 27mwxf/27zgxf
+# I have a vauge memory that we have discussed this isue already
+set(subjZ5).difference(set(subjC5))
+
+
+
+# dfC5 should keep only `SUB` levels that are present in corresponding dfZ5 column
+# effectively this drops from dfC5 subjects not present in dfZ5
+
+# HOT FIX # TODO verify again that this is all hunky-dory
+dfZ5["subj0"] = dfZ5["subj0"].str.replace("27mwxf","27zgxf")
+dfC5 = dfC5[ np.isin( dfC5["subj0"], dfZ5["subj0"].unique() ) ]
+display(dfC5.shape)
+display(dfZ5.shape)
+
+
+
+assert sorted(dfC5["subj0"].unique())==sorted(dfZ5["subj0"].unique())
+assert sorted(dfC5["chan0"].unique())==sorted(dfZ5["chan0"].unique())
+assert sorted(dfC5["cond0"].unique())==sorted(dfZ5["cond0"].unique())
+assert sorted(dfC5["tmin0"].unique())==sorted(dfZ5["tmin0"].unique())
+
+
+
+
+
+
+dispDF(dfC5,12)
+
+dispDF(dfZ5,12)
+"""
+
+
+
+
+
+
+
+#+END_SRC
+
+
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+"""
+dfA0 = dfC5.append(dfZ5, ignore_index=True)
+dfA0.shape
+dispDF(dfA0,25)
+
+"""
+#+END_SRC
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+
+# Expected number of basic cases
+temp_expect = dict(
+    cond0 =  4,
+    chan0 = 36,
+    tmin0 =  6,
+    subj0 = 32,
+)
+temp_expect = np.prod(list(temp_expect.values()))
+
+# C3chan1 has only one run (0) but two levels for mode0 (pos, neg)
+temp_C3chan1_pos1 = len(dfA0.query(""" set0=="C3chan1" & mode0=="pos" """))
+assert temp_expect == temp_C3chan1_pos1
+
+# Z4chan1 has only one level for mode0 (pos) but four levels for run (1, 2, 3, 4)
+temp_Z3chan1_run1 = len(dfA0.query(""" set0=="Z4chan1" & runn0==1 """ ))
+assert temp_expect == temp_Z3chan1_run1
+
+# Analogous to the above
+temp_C3bund0_pos1 = len(dfA0.query(""" set0=="C3bund0" & mode0=="pos" """))
+temp_C3bund1_pos1 = len(dfA0.query(""" set0=="C3bund1" & mode0=="pos" """))
+temp_Z4bund1_run1 = len(dfA0.query(""" set0=="Z4bund1" & runn0==1     """))
+temp_Z0chan1_run0 = len(dfA0.query(""" set0=="Z0chan1" & runn0==0     """))
+temp_Z0bund1_run0 = len(dfA0.query(""" set0=="Z0bund1" & runn0==0     """))
+
+assert temp_expect == temp_C3bund0_pos1 * 6
+assert temp_expect == temp_C3bund0_pos1 * 6
+assert temp_expect == temp_Z4bund1_run1 * 6
+assert temp_expect == temp_Z0chan1_run0
+assert temp_expect == temp_Z0bund1_run0 * 6
+
+display(temp_expect)
+display(temp_C3chan1_pos1)
+display(temp_Z3chan1_run1)
+display(temp_C3bund0_pos1)
+display(temp_C3bund1_pos1)
+display(temp_Z4bund1_run1)
+display(temp_Z0chan1_run0)
+display(temp_Z0bund1_run0)
+
+# Each of six bundles contains six channels
+display(temp_Z4bund1_run1 * 6)
+
+del temp_expect
+del temp_C3chan1_pos1
+del temp_Z3chan1_run1
+del temp_C3bund0_pos1
+del temp_C3bund1_pos1
+del temp_Z4bund1_run1
+del temp_Z0chan1_run0
+del temp_Z0bund1_run0
+
+
+#+END_SRC
+
+
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+dfA0.to_csv("peaks/data/dfA0.csv",index=False,)
+
+
+#+END_SRC
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+# dfA0.drop(columns=["evoked0","quest0","tmax0","chanX","latX","SES","TASK"],inplace=True,errors="ignore",)
+
+dfA0 = dfA0[["cond0","chan0","bund0","tmin0","mode0","subj0","runn0","set0","valX",]]
+
+dfA0 = dfA0[["set0","mode0","cond0","chan0","bund0","tmin0","runn0","subj0","valX",]]
+
+dispDF(dfA0,24)
+display(list(dfA0.columns))
+
+
+
+#+END_SRC
+
+
+
+* PROD: Third
+:PROPERTIES:
+:ARCHIVE_TIME: 2020-12-21 Mon 12:17
+:ARCHIVE_FILE: ~/mount/sshfs__eben/data/sgm/eeg2019/ds.401.exp/sgm_eeg__check_peaks_aggr/peaks__test_000.org
+:ARCHIVE_CATEGORY: peaks__test_000
+:END:
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+ifSetup = "peaks/data/setup.json"
+verbose = 0
+cond_swaps,tmin_swaps,tmax_swaps,chan_swaps = convert_ZZ_translators(
+        ifSetup=ifSetup,verbose=verbose,
+    )
+
+print_dict(cond_swaps,"cond_swaps",1,)
+print_dict(tmin_swaps,"tmin_swaps",1,)
+print_dict(tmax_swaps,"tmax_swaps",1,)
+print_dict(chan_swaps,"chan_swaps",1,)
+
+
+ifSetup="peaks/data/setup.json"
+with open(ifSetup) as fhSetup: setup = OrderedDict(json.load(fhSetup))
+print_dict(setup,"setup",1,)
+
+
+
+chan_infos0 = setup["chans"]["info0"]
+print_dict(chan_infos0,"chan_infos0",1,)
+
+chans_later0 = setup["chans"]["info2"]["later0"]
+print_dict(chans_later0,"chans_later0",1,)
+
+
+chans_front0 = setup["chans"]["info2"]["front0"]
+print_dict(chans_front0,"chans_front0",1,)
+
+
+
+
+
+ifA0 = "peaks/data/dfA0.csv"
+dfA0 = pd.read_csv(ifA0)
+dfA1 = dfA0[["set0","mode0","cond0","chan0","bund0","tmin0","runn0","subj0","valX",]].copy()
+display(list(dfA1.columns))
+
+dfA1["later0"] = dfA1["chan0"].map(chans_later0)
+dfA1["front0"] = dfA1["chan0"].map(chans_front0)
+
+
+temp_cols = ["set0","mode0","cond0","chan0","later0","front0","bund0","tmin0","runn0","subj0","valX",]
+dfA2 = dfA1[temp_cols]
+
+
+
+dfA2.to_csv("peaks/data/dfA2.csv",index=False,)
+
+
+
+
+
+
+
+
+
+
+#+END_SRC
