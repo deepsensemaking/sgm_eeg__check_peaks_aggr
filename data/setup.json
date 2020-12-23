@@ -282,6 +282,28 @@
             "7": "#52b6ff"
         }
     },
+    "colors1": {
+        "word_set": {
+            "b0_all_in": "#999999",
+            "b0_verb_X": "#e5786d",
+            "b0_noun_F": "#8ac6f2",
+            "b0_noun_M": "#8ac6f2",
+            "b0_noun_X": "#8ac6f2",
+            "b1_all_in": "#999999",
+            "b1_verb_X": "#e5786d",
+            "b1_noun_F": "#8ac6f2",
+            "b1_noun_M": "#8ac6f2",
+            "b1_noun_X": "#8ac6f2"
+        },
+        "word_len": {
+            "b0_9": "#ff38c9",
+            "b0_8": "#a877e4",
+            "b0_7": "#52b6ff",
+            "b1_9": "#ff38c9",
+            "b1_8": "#a877e4",
+            "b1_7": "#52b6ff"
+        }
+    },
     "linestyles0": {
         "word_set": {
             "all_in": "solid",
@@ -294,6 +316,28 @@
             "9": "solid",
             "8": "solid",
             "7": "solid"
+        }
+    },
+    "linestyles1": {
+        "word_set": {
+            "b0_all_in": "solid",
+            "b0_verb_X": "solid",
+            "b0_noun_F": "dotted",
+            "b0_noun_M": "dashed",
+            "b0_noun_X": "solid",
+            "b1_all_in": "solid",
+            "b1_verb_X": "solid",
+            "b1_noun_F": "dotted",
+            "b1_noun_M": "dashed",
+            "b1_noun_X": "solid"
+        },
+        "word_len": {
+            "b0_9": "solid",
+            "b0_8": "solid",
+            "b0_7": "solid",
+            "b1_9": "solid",
+            "b1_8": "solid",
+            "b1_7": "solid"
         }
     },
     "styles0": {
@@ -322,6 +366,60 @@
                 "linewidth": 3
             },
             "7": {
+                "linewidth": 3
+            }
+        }
+    },
+    "styles1": {
+        "word_set": {
+            "b0_all_in": {
+                "linewidth": 1
+            },
+            "b0_verb_X": {
+                "linewidth": 3
+            },
+            "b0_noun_F": {
+                "linewidth": 2
+            },
+            "b0_noun_M": {
+                "linewidth": 2
+            },
+            "b0_noun_X": {
+                "linewidth": 3
+            },
+            "b1_all_in": {
+                "linewidth": 1
+            },
+            "b1_verb_X": {
+                "linewidth": 3
+            },
+            "b1_noun_F": {
+                "linewidth": 2
+            },
+            "b1_noun_M": {
+                "linewidth": 2
+            },
+            "b1_noun_X": {
+                "linewidth": 3
+            }
+        },
+        "word_len": {
+            "b0_9": {
+                "linewidth": 3
+            },
+            "b0_8": {
+                "linewidth": 3
+            },
+            "b0_7": {
+                "linewidth": 3
+            },
+            "b1_9": {
+                "linewidth": 3
+            },
+            "b1_8": {
+                "linewidth": 3
+            },
+            "b1_7": {
                 "linewidth": 3
             }
         }
