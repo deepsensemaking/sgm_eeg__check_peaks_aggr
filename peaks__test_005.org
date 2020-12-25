@@ -198,20 +198,20 @@ dispDF(DFs["D3"]["df1"],n=22)
 #+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
 
 # Keep in Z4 (df0 and df1) only columns that are present in C4
-DFs["Z4"]["df0"] = DFs["Z4"]["df0"][ DFs["D4"]["df0"].columns ]
-DFs["Z4"]["df1"] = DFs["Z4"]["df1"][ DFs["D4"]["df1"].columns ]
+DFs["Z4"]["df0"] = DFs["Z4"]["df0"][ DFs["D3"]["df0"].columns ]
+DFs["Z4"]["df1"] = DFs["Z4"]["df1"][ DFs["D3"]["df1"].columns ]
 
 
 list(DFs["Z4"]["df0"].columns)
 list(DFs["Z4"]["df1"].columns)
 
-list(DFs["D4"]["df0"].columns)
-list(DFs["D4"]["df1"].columns)
+list(DFs["D3"]["df0"].columns)
+list(DFs["D3"]["df1"].columns)
 
 
 #+END_SRC
 
-** Merge runs for ZZ
+** Merge RUNS for ZZ
 
 #+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
 

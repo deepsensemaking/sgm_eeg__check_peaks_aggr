@@ -399,7 +399,7 @@ dfA0.set0.unique()
 
 #+END_SRC
 
-** Intenese checkups
+** Extensive checkups
 
 #+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
 
