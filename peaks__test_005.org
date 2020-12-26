@@ -98,55 +98,31 @@ ifSetup="peaks/data/setup.json"
 with open(ifSetup) as fhSetup: setup = OrderedDict(json.load(fhSetup))
 print_dict(setup,"setup",1,)
 
-
-#+END_SRC
-
-** Convert ZZ data
-
-#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
-
-ifZ0 = "peaks/data/corr_bv_database_EEG_LONG.csv"
-dfZ0 = pd.read_csv(ifZ0)
-
-dfZ4 = convert_ZZ(dfZ0,ifSetup="peaks/data/setup.json",verbose=3,)
-dfZ4.shape
-
-ofZ4 = "peaks/data/dfZ4_peaks_crude_CONVERTED.csv"
-dfZ4.to_csv(ofZ4,index = False,)
-
-
 #+END_SRC
 
 ** Cummarize peak values (moving from channel to bundle space)
 
 #+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
 
-# DFs = OrderedDict()
-# DFs["C0"] = OrderedDict()
-# DFs["C0"]["if0"] = "peaks/data/df0_peaks0_crude.csv"
-# DFs["C1"] = OrderedDict()
-# DFs["C1"]["if0"] = "peaks/data/df1_peaks1_crude.csv"
-# DFs["C2"] = OrderedDict()
-# DFs["C2"]["if0"] = "peaks/data/df2_peaks2_crude.csv"
-# DFs["C3"] = OrderedDict()
-# DFs["C3"]["if0"] = "peaks/data/df3_peaks3_crude.csv"
-# DFs["C4"] = OrderedDict()
-# DFs["C4"]["if0"] = "peaks/data/df4_peaks4_crude.csv"
-# DFs["Z4"] = OrderedDict()
-# DFs["Z4"]["if0"] = "peaks/data/dfZ4_peaks_crude_CONVERTED.csv"
-
-
 DFs = OrderedDict()
 DFs["D0"] = OrderedDict()
-DFs["D0"]["if0"] = "peaks/data/new_005_df0_peaks0_crude.csv"
+DFs["D0"]["if0"] = "peaks/data/new_007_peaks0.csv"
 DFs["D1"] = OrderedDict()
-DFs["D1"]["if0"] = "peaks/data/new_005_df0_peaks0_scipy.csv"
+DFs["D1"]["if0"] = "peaks/data/new_007_peaks1.csv"
 DFs["D2"] = OrderedDict()
-DFs["D2"]["if0"] = "peaks/data/new_005_df4_peaks4_crude.csv"
+DFs["D2"]["if0"] = "peaks/data/new_007_peaks2.csv"
 DFs["D3"] = OrderedDict()
-DFs["D3"]["if0"] = "peaks/data/new_005_df4_peaks4_scipy.csv"
+DFs["D3"]["if0"] = "peaks/data/new_007_peaks3.csv"
+DFs["D4"] = OrderedDict()
+DFs["D4"]["if0"] = "peaks/data/new_007_peaks4.csv"
+DFs["Z0"] = OrderedDict()
+DFs["Z0"]["if0"] = "peaks/data/dfZ0_peaks_crude_CONVERTED.csv"
+DFs["Z1"] = OrderedDict()
+DFs["Z1"]["if0"] = "peaks/data/dfZ0_peaks_crude_CONVERTED.xtra.bund.means.csv"
 DFs["Z4"] = OrderedDict()
 DFs["Z4"]["if0"] = "peaks/data/dfZ4_peaks_crude_CONVERTED.csv"
+DFs["Z5"] = OrderedDict()
+DFs["Z5"]["if0"] = "peaks/data/dfZ4_peaks_crude_CONVERTED.xtra.bund.means.csv"
 
 
 for key0 in DFs.keys():
@@ -155,41 +131,15 @@ for key0 in DFs.keys():
 
 print_dict(DFs,"DFs",1,)
 
-
-# key0 = "C0"
-for key0 in DFs.keys():
-    print("processing: {}".format(key0))
-    DFs[key0]["df1"] = chan_bund_INEFFICIENT_mean(DFs[key0]["df0"])
-    DFs[key0]["of1"] = DFs[key0]["if0"].replace(".csv",".xtra.bund.means.csv")
-    DFs[key0]["df1"].to_csv(DFs[key0]["of1"],index=False,)
-    print("  DONE and SAVED to: {}".format(DFs[key0]["of1"]))
-
-
-
-#+END_SRC
-
-** Save HKL
-
-#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
-
-import hickle as hkl
-hkl.dump(
-    DFs,
-    "data/DFs_new_005.hkl.gz",
-    mode="w",
-    compression="gzip",
-)
-
-#+END_SRC
-
-** Inspect columns before unification
-
-#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
-
-dispDF(DFs["D3"]["df0"],n=22)
-
-dispDF(DFs["D3"]["df1"],n=22)
-
+dispDF(DFs["D0"]["df0"],22)
+dispDF(DFs["D1"]["df0"],22)
+dispDF(DFs["D2"]["df0"],22)
+dispDF(DFs["D3"]["df0"],22)
+dispDF(DFs["D4"]["df0"],22)
+dispDF(DFs["Z0"]["df0"],22)
+dispDF(DFs["Z1"]["df0"],22)
+dispDF(DFs["Z4"]["df0"],22)
+dispDF(DFs["Z5"]["df0"],22)
 
 #+END_SRC
 
@@ -197,46 +147,9 @@ dispDF(DFs["D3"]["df1"],n=22)
 
 #+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
 
-# Keep in Z4 (df0 and df1) only columns that are present in C4
-DFs["Z4"]["df0"] = DFs["Z4"]["df0"][ DFs["D3"]["df0"].columns ]
-DFs["Z4"]["df1"] = DFs["Z4"]["df1"][ DFs["D3"]["df1"].columns ]
-
-
-list(DFs["Z4"]["df0"].columns)
-list(DFs["Z4"]["df1"].columns)
-
-list(DFs["D3"]["df0"].columns)
-list(DFs["D3"]["df1"].columns)
-
-
-#+END_SRC
-
-** Merge RUNS for ZZ
-
-#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
-
-cols0 = DFs["Z4"]["df0"].columns
-cols1 = [col0 for col0 in cols0 if col0 not in ["valX","latX","RUN"]]
-
-print_dict(DFs,"DFs")
-
-DFs["Z0"] = OrderedDict()
-DFs["Z0"]["of0"] = "peaks/data/dfZ0_peaks_crude_CONVERTED.csv"
-
-DFs["Z0"]["df0"] = DFs["Z4"]["df0"].groupby(by=cols1,as_index=False).agg("mean")
-DFs["Z0"]["df0"]["RUN"] = 0
-DFs["Z0"]["df0"] = DFs["Z0"]["df0"][cols0]
-
-DFs["Z0"]["df0"].to_csv(DFs["Z0"]["of0"],index=False,)
-
-
-dispDF( DFs["Z0"]["df0"], 12 )
-
-
-DFs["Z0"]["df1"] = chan_bund_INEFFICIENT_mean(DFs["Z0"]["df0"])
-DFs["Z0"]["of1"] = DFs["Z0"]["of0"].replace(".csv",".xtra.bund.means.csv")
-DFs["Z0"]["df1"].to_csv(DFs["Z0"]["of1"],index=False,)
-
+# Keep in Z4 and Z5 only columns from Z0 and Z1
+DFs["Z4"]["df0"] = DFs["Z4"]["df0"][ DFs["Z0"]["df0"].columns ]
+DFs["Z5"]["df0"] = DFs["Z5"]["df0"][ DFs["Z1"]["df0"].columns ]
 
 #+END_SRC
 
@@ -260,27 +173,165 @@ for key0 in DFs.keys():
 
 for key0 in DFs.keys():
     print("processing: {}".format(key0))
-    DFs[key0]["df0"].rename(columns=temp_rename,inplace=True,)
-    DFs[key0]["df1"].rename(columns=temp_rename,inplace=True,)
-    DFs[key0]["df0"].drop(columns=temp_drop,inplace=True,)
-    DFs[key0]["df1"].drop(columns=temp_drop,inplace=True,)
+    DFs[key0]["df0"].rename(columns=temp_rename,inplace=True,errors="ignore",)
+    DFs[key0]["df0"].drop(columns=temp_drop,inplace=True,errors="ignore",)
 
 
 for key0 in DFs.keys():
     print("processing: {}".format(key0))
-    DFs[key0]["df0"]["set0"] = key0+"chan1"
-    DFs[key0]["df1"]["set0"] = key0+"bund1"
-    DFs[key0]["df0"].loc[ DFs[key0]["df0"]["bund0"].isnull(),"set0"] = key0+"bund0"
+    DFs[key0]["df0"]["set0"] = key0
+
+
+set(DFs["D0"]["df0"].columns).difference(DFs["Z5"]["df0"].columns)
+
+for key0 in ["Z0","Z1","Z4","Z5",]:
+    print("processing: {}".format(key0))
+    DFs[key0]["df0"]["class0"] = "bva"
+    DFs[key0]["df0"]["nave0"]  = np.nan
+    DFs[key0]["df0"].loc[  DFs[key0]["df0"]["bund0"].isnull(),"type0"] = "bund1"
+    DFs[key0]["df0"].loc[ ~DFs[key0]["df0"]["bund0"].isnull(),"type0"] = "chan0"
+
+
+
+dispDF(DFs["D0"]["df0"],22)
+dispDF(DFs["D1"]["df0"],22)
+dispDF(DFs["D2"]["df0"],22)
+dispDF(DFs["D3"]["df0"],22)
+dispDF(DFs["D4"]["df0"],22)
+
+dispDF(DFs["Z0"]["df0"],22)
+dispDF(DFs["Z1"]["df0"],22)
+dispDF(DFs["Z4"]["df0"],22)
+dispDF(DFs["Z5"]["df0"],22)
+
+
+
+#+END_SRC
+
+** Introduce redundant factors with redundant levels
+
+#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
+
+
+ifSetup = "peaks/data/setup.json"
+verbose = 0
+cond_swaps,tmin_swaps,tmax_swaps,chan_swaps = convert_ZZ_translators(
+    ifSetup=ifSetup,verbose=verbose,
+)
+
+print_dict(cond_swaps,"cond_swaps",1,)
+print_dict(tmin_swaps,"tmin_swaps",1,)
+print_dict(tmax_swaps,"tmax_swaps",1,)
+print_dict(chan_swaps,"chan_swaps",1,)
+
+ifSetup="peaks/data/setup.json"
+with open(ifSetup) as fhSetup: setup = OrderedDict(json.load(fhSetup))
+print_dict(setup,"setup",1,)
+
+chan_infos0 = setup["chans"]["info0"]
+print_dict(chan_infos0,"chan_infos0",1,)
+
+chans_later0 = setup["chans"]["info2"]["later0"]
+print_dict(chans_later0,"chans_later0",1,)
+
+chans_front0 = setup["chans"]["info2"]["front0"]
+print_dict(chans_front0,"chans_front0",1,)
+
+
+bundMap = setup["chans"]["info3"]["bundMap"]
+print_dict(bundMap,"bundMap",1,)
+
+
+for key0 in ["Z0","Z1","Z4","Z5",]:
+    print("processing: {}".format(key0))
+    DFs[key0]["df0"]["later0"] = DFs[key0]["df0"]["chan0"].map(chans_later0)
+    DFs[key0]["df0"]["coron0"] = DFs[key0]["df0"]["chan0"].map(chans_front0)
+
+
+set(DFs["D0"]["df0"].columns).difference(DFs["Z5"]["df0"].columns)
+set(DFs["Z5"]["df0"].columns).difference(DFs["D0"]["df0"].columns)
 
 
 for key0 in DFs.keys():
     print("processing: {}".format(key0))
-
-    assert list(DFs["C0"]["df0"].columns)==list(DFs[key0]["df0"].columns)
-    assert list(DFs["C0"]["df0"].columns)==list(DFs[key0]["df1"].columns)
+    DFs[key0]["df0"]["chan1"] = DFs[key0]["df0"]["chan0"].map(bundMap)
 
 
-display(list( DFs["C0"]["df0"].columns ))
+
+list(DFs["D0"]["df0"].columns)
+
+cols0 = [
+    "set0",
+    "evoked0",
+    "quest0",
+    "cond0",
+    #"chan0",
+    "chan1",
+    #"bund0",
+    "later0",
+    "coron0",
+    "tmin0",
+    #"tmax0",
+    "class0",
+    "mode0",
+    "type0",
+    "subj0",
+    "runn0",
+    "nave0",
+    #"chanX",
+    "latX",
+    "valX",
+]
+
+for key0 in DFs.keys():
+    DFs[key0]["df0"] = DFs[key0]["df0"][cols0].copy()
+
+
+for key0 in DFs.keys():
+    DFs[key0]["df0"].to_csv("peaks/data/new_009_{}".format(key0),index=False)
+
+
+dispDF(DFs["D0"]["df0"],22)
+dispDF(DFs["D1"]["df0"],22)
+dispDF(DFs["D2"]["df0"],22)
+dispDF(DFs["D3"]["df0"],22)
+dispDF(DFs["D4"]["df0"],22)
+
+dispDF(DFs["Z0"]["df0"],22)
+dispDF(DFs["Z1"]["df0"],22)
+dispDF(DFs["Z4"]["df0"],22)
+dispDF(DFs["Z5"]["df0"],22)
+
+
+ALLDFs = pd.DataFrame([],columns=DFs["D0"]["df0"].columns)
+
+ALLDFs = ALLDFs.append([
+    DFs["D0"]["df0"],
+    DFs["D1"]["df0"],
+    DFs["D2"]["df0"],
+    DFs["D3"]["df0"],
+    DFs["D4"]["df0"],
+    DFs["Z0"]["df0"],
+    DFs["Z1"]["df0"],
+    DFs["Z4"]["df0"],
+    DFs["Z5"]["df0"],
+])
+
+ALLDFs = ALLDFs.append([
+    DFs["D0"]["df0"],
+    DFs["D1"]["df0"],
+    DFs["D2"]["df0"],
+    DFs["D3"]["df0"],
+    DFs["D4"]["df0"],
+    DFs["Z0"]["df0"],
+    DFs["Z1"]["df0"],
+    DFs["Z4"]["df0"],
+    DFs["Z5"]["df0"],
+])
+
+ALLDFs.to_csv("peaks/data/new_008_ALLDFs.csv",index=False,)
+
+
 
 
 #+END_SRC
@@ -487,54 +538,3 @@ display(len(dfA0.columns))
 #+END_SRC
 
 
-** Introduce redundant factors with redundant levels
-
-#+BEGIN_SRC ipython :session *iPython* :eval yes :results raw drawer :exports both :shebang "#!/usr/bin/env python3\n# -*- coding: utf-8 -*-\n\n" :var EMACS_BUFFER_DIR=(file-name-directory buffer-file-name) :tangle yes
-
-
-ifSetup = "peaks/data/setup.json"
-verbose = 0
-cond_swaps,tmin_swaps,tmax_swaps,chan_swaps = convert_ZZ_translators(
-        ifSetup=ifSetup,verbose=verbose,
-    )
-
-print_dict(cond_swaps,"cond_swaps",1,)
-print_dict(tmin_swaps,"tmin_swaps",1,)
-print_dict(tmax_swaps,"tmax_swaps",1,)
-print_dict(chan_swaps,"chan_swaps",1,)
-
-
-ifSetup="peaks/data/setup.json"
-with open(ifSetup) as fhSetup: setup = OrderedDict(json.load(fhSetup))
-print_dict(setup,"setup",1,)
-
-
-
-chan_infos0 = setup["chans"]["info0"]
-print_dict(chan_infos0,"chan_infos0",1,)
-
-chans_later0 = setup["chans"]["info2"]["later0"]
-print_dict(chans_later0,"chans_later0",1,)
-
-
-chans_front0 = setup["chans"]["info2"]["front0"]
-print_dict(chans_front0,"chans_front0",1,)
-
-
-ifA0 = "peaks/data/dfA0.csv"
-dfA0 = pd.read_csv(ifA0)
-dfA1 = dfA0[["set0","mode0","cond0","chan0","bund0","tmin0","runn0","subj0","valX",]].copy()
-display(list(dfA1.columns))
-
-
-dfA1["later0"] = dfA1["chan0"].map(chans_later0)
-dfA1["front0"] = dfA1["chan0"].map(chans_front0)
-
-
-
-
-temp_cols = ["set0","mode0","cond0","chan0","later0","front0","bund0","tmin0","runn0","subj0","valX",]
-dfA2 = dfA1[temp_cols]
-
-
-#+END_SRC
